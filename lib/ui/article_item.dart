@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:wanandroid_flutter/ui/article_detail.dart';
 
 class ArticleItem extends StatelessWidget {
   const ArticleItem({Key? key, this.itemData,}) : super(key: key);
@@ -41,9 +42,17 @@ class ArticleItem extends StatelessWidget {
       ],
     );
 
-    return Card(
-      elevation: 4.0,
-      child: column,
+    return GestureDetector(
+      child: Card(
+        elevation: 4.0,
+        child: column,
+      ),
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (_) {
+            return ArticleDetail(url: itemData["link"],);
+        }));
+        debugPrint("点击了第${itemData["link"]}得数据");
+      },
     );
   }
 }

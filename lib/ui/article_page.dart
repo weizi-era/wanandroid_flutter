@@ -23,7 +23,9 @@ class _ArticlePageState extends State<ArticlePage> {
 
   List banners = [];
 
+  /// 总页数
   var totalPages = 0;
+  /// 当前页数
   var curPage = 0;
 
   @override
@@ -35,6 +37,7 @@ class _ArticlePageState extends State<ArticlePage> {
 
       /// 获得当前位置的像素值
       var pixels = _controller.position.pixels;
+
       ///当前滑动位置到达底部，同时还有更多数据
       if (maxScroll == pixels && curPage < totalPages) {
         ///加载更多
@@ -60,13 +63,14 @@ class _ArticlePageState extends State<ArticlePage> {
 
     if (data != null) {
       var map = data["data"];
-      var datas = data["datas"];
+      var datas = map["datas"];
 
-      totalPages = data["pageCount"];
+      totalPages = map["pageCount"];
+
       if(curPage == 0) {
         articles.clear();
       }
-      curPage ++;
+      curPage++;
       articles.addAll(datas);
 
       /// 更新 UI
@@ -117,7 +121,6 @@ class _ArticlePageState extends State<ArticlePage> {
               itemBuilder: (context, i) => _itemBuilder(i),
               controller: _controller,
             ),
-
           ),
         )
       ],
@@ -126,24 +129,31 @@ class _ArticlePageState extends State<ArticlePage> {
 
   Widget _itemBuilder(int i) {
     if (i == 0) {
-      return Container(
-        height: MediaQuery.of(context).size.height * 0.3,
-        child: _bannerView(),
+      return GestureDetector(
+        child: Container(
+          height: MediaQuery.of(context).size.height * 0.3,
+          child: _bannerView(),
+        ),
       );
     }
     var itemData = articles[i - 1];
     return ArticleItem(itemData: itemData,);
   }
 
-  Widget _bannerView() {
+  Widget? _bannerView() {
+
     List<Widget> list = banners.map((item) {
       return Image.network(item["imagePath"], fit: BoxFit.cover,);
     }).toList();
 
-    return list.isNotEmpty ? BannerView(
-      list,
-      intervalDuration: const Duration(seconds: 3),
-    ) : null;
+    if (list.isNotEmpty) {
+      return BannerView(
+        list,
+        intervalDuration: Duration(seconds: 3),
+      );
+    } else {
+      return null;
+    }
   }
 
 }

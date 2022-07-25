@@ -18,7 +18,9 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(
           title: Text("首页"),
-          leading: IconButton(onPressed: () {}, icon: Icon(Icons.search)),
+          actions: [
+            IconButton(onPressed: () {}, icon: Icon(Icons.search)),
+          ],
         ),
         body: ArticlePage(),
       )
