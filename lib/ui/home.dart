@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:wanandroid_flutter/ui/article_page.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -12,14 +13,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-
-    );
+    return ArticlePage();
   }
 }
 
-class sss extends BottomNavigationBarItem {
-  sss({required super.icon});
-
-
-}
