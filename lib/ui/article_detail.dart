@@ -5,23 +5,26 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class ArticleDetail extends StatefulWidget {
-  const ArticleDetail({Key? key, required this.url}) : super(key: key);
+  const ArticleDetail(this.itemData, {Key? key}) : super(key: key);
 
-  final url;
+  //final url;
+  final itemData;
   @override
-  State<ArticleDetail> createState() => _ArticleDetailState(url);
+  State<ArticleDetail> createState() => _ArticleDetailState(itemData);
 }
 
 class _ArticleDetailState extends State<ArticleDetail> {
-  var url;
+  var itemData;
 
   /// 控制正在加载的显示
   bool _isHidden = true;
 
+  final _key = UniqueKey();
+
   final Completer<WebViewController> _controller =
       Completer<WebViewController>();
 
-  _ArticleDetailState(this.url);
+  _ArticleDetailState(this.itemData);
 
   @override
   void initState() {
@@ -35,8 +38,10 @@ class _ArticleDetailState extends State<ArticleDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("文章详情"),
-        leading: IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back)),
+        title: Text(itemData["title"]),
+        leading: IconButton(onPressed: () {
+          Navigator.pop(context);
+        }, icon: Icon(Icons.arrow_back)),
         actions: [
           IconButton(onPressed: () {}, icon: Icon(Icons.star)),
           IconButton(onPressed: () {}, icon: Icon(Icons.share)),
@@ -51,7 +56,8 @@ class _ArticleDetailState extends State<ArticleDetail> {
           Offstage(
             offstage: !_isHidden,
             child: WebView(
-              initialUrl: url,
+              key: _key,
+              initialUrl: itemData["link"],
               javascriptMode: JavascriptMode.unrestricted,
               onWebViewCreated: (WebViewController webViewController) {
                 _controller.complete(webViewController);

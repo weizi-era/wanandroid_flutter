@@ -2,6 +2,7 @@
 import 'package:banner_view/banner_view.dart';
 import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/network/api.dart';
+import 'package:wanandroid_flutter/ui/article_detail.dart';
 import 'package:wanandroid_flutter/ui/article_item.dart';
 
 class ArticlePage extends StatefulWidget {
@@ -143,7 +144,14 @@ class _ArticlePageState extends State<ArticlePage> {
   Widget? _bannerView() {
 
     List<Widget> list = banners.map((item) {
-      return Image.network(item["imagePath"], fit: BoxFit.cover,);
+      return InkWell( /// 能让我们快速添加各种触摸事件的Widget
+        child: Image.network(item["imagePath"], fit: BoxFit.cover,),
+        onTap: () {  ///点击事件
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+            return ArticleDetail(item);
+          }));
+        },
+      );
     }).toList();
 
     if (list.isNotEmpty) {
