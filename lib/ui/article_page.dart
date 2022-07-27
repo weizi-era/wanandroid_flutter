@@ -1,5 +1,6 @@
 
 import 'package:banner_view/banner_view.dart';
+import 'package:banner_view/indicator/IndicatorWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/network/api.dart';
 import 'package:wanandroid_flutter/ui/article_detail.dart';
@@ -107,35 +108,41 @@ class _ArticlePageState extends State<ArticlePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        Offstage(
-          offstage: !_isHidden,
-          child: Center(child: CircularProgressIndicator(),),
-        ),
-        Offstage(
-          offstage: _isHidden,
-          child: RefreshIndicator(
-            onRefresh: _pullToRefresh,
-            child: ListView.builder(
-              itemCount: articles.length + 1,
-              itemBuilder: (context, i) => _itemBuilder(i),
-              controller: _controller,
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Center(child: Text("首页",)),
+        actions: [
+          IconButton(onPressed: () {}, icon: Icon(Icons.search)),
+        ],
+      ),
+      body: Stack(
+        children: <Widget>[
+          Offstage(
+            offstage: !_isHidden,
+            child: Center(child: CircularProgressIndicator(),),
           ),
-        )
-      ],
+          Offstage(
+            offstage: _isHidden,
+            child: RefreshIndicator(
+              onRefresh: _pullToRefresh,
+              child: ListView.builder(
+                itemCount: articles.length + 1,
+                itemBuilder: (context, i) => _itemBuilder(i),
+                controller: _controller,
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 
   Widget _itemBuilder(int i) {
     if (i == 0) {
-      return GestureDetector(
-        child: Container(
+      return Container(
           height: MediaQuery.of(context).size.height * 0.3,
           child: _bannerView(),
-        ),
-      );
+        );
     }
     var itemData = articles[i - 1];
     return ArticleItem(itemData: itemData,);

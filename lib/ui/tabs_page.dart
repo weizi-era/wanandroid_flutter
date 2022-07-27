@@ -27,12 +27,6 @@ class _TabsPageState extends State<TabsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Center(child: Text("首页",)),
-        actions: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.search)),
-        ],
-      ),
       bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           items: [
@@ -46,7 +40,8 @@ class _TabsPageState extends State<TabsPage> {
         setState(() {
           currentIndex = index;
         });
-      },),
+      },
+      currentIndex: currentIndex,),
       body: _tabs[currentIndex],
     );
   }

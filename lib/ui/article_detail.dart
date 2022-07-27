@@ -54,7 +54,7 @@ class _ArticleDetailState extends State<ArticleDetail> {
             child: Center(child: CircularProgressIndicator(),),
           ),
           Offstage(
-            offstage: !_isHidden,
+            offstage: _isHidden,
             child: WebView(
               key: _key,
               initialUrl: itemData["link"],
@@ -62,8 +62,13 @@ class _ArticleDetailState extends State<ArticleDetail> {
               onWebViewCreated: (WebViewController webViewController) {
                 _controller.complete(webViewController);
               },
-              onProgress: (int progress) {
-                print('WebView is loading (progress : $progress%)');
+              onPageStarted: (url) {
+                print("开始加载：$url");
+              },
+              onPageFinished: (url) {
+                print("加载完成：$url");
+                _isHidden = false;
+                setState(() {});
               },
             ),
           )

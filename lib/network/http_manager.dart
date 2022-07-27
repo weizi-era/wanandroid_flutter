@@ -21,10 +21,10 @@ class HttpManager {
       _dio = Dio(options);
     }
 
-    request(url, {String method = "get"}) async {
+    request(url, {String method = "get", Map<String, dynamic>? queryParameters}) async {
       try {
-        Options options = Options(method: method);
-        Response response = await _dio!.request(url, options: options);
+        Options options = Options(method: method,);
+        Response response = await _dio!.request(url, options: options, queryParameters: queryParameters);
         return response.data;
       } catch (e) {
         return null;
