@@ -3,7 +3,7 @@ import 'package:wanandroid_flutter/ui/home/home.dart';
 import 'package:wanandroid_flutter/ui/mine.dart';
 import 'package:wanandroid_flutter/ui/project/project.dart';
 import 'package:wanandroid_flutter/ui/public/public.dart';
-import 'package:wanandroid_flutter/ui/system.dart';
+import 'package:wanandroid_flutter/ui/system/system.dart';
 
 class TabsPage extends StatefulWidget {
   const TabsPage({Key? key}) : super(key: key);

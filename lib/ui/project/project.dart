@@ -6,7 +6,6 @@ import 'package:wanandroid_flutter/network/http_manager.dart';
 import 'package:wanandroid_flutter/ui/project/project_item.dart';
 import 'package:wanandroid_flutter/ui/project/project_page.dart';
 
-
 class Project extends StatefulWidget {
   const Project({Key? key}) : super(key: key);
 
@@ -15,15 +14,15 @@ class Project extends StatefulWidget {
 }
 
 class _ProjectState extends State<Project> with TickerProviderStateMixin {
-
   List _tabs = [];
 
-  List<Tab> _tabsName = [];
+  List<Widget> _tabsName = [];
 
   late TabController _tabController;
 
   var _currentIndex = 0;
 
+  String? selectedValue;
 
   @override
   void initState() {
@@ -32,9 +31,7 @@ class _ProjectState extends State<Project> with TickerProviderStateMixin {
     _tabController = TabController(length: 0, vsync: this);
 
     _getProjectTab();
-
   }
-
 
   _onTabChanged() {
     if (_tabController.index.toDouble() == _tabController.animation?.value) {
@@ -51,20 +48,20 @@ class _ProjectState extends State<Project> with TickerProviderStateMixin {
     return Scaffold(
       appBar: AppBar(
           title: TabBar(
-            tabs: _tabsName,
-            controller: _tabController,
-            isScrollable: true,
-          )),
+        tabs: _tabsName,
+        controller: _tabController,
+        isScrollable: true,
+      )),
       body: TabBarView(
-          controller:_tabController,
-          children: _tabs.map((item) {
-            return ProjectPage(id: item["id"]);
-          }).toList(),
+        controller: _tabController,
+        children: _tabs.map((item) {
+          return ProjectPage(id: item["id"]);
+        }).toList(),
       ),
     );
   }
 
-   _getProjectTab() async {
+  _getProjectTab() async {
     var data = await Api.getProjectTab();
 
     if (data != null) {
@@ -72,8 +69,12 @@ class _ProjectState extends State<Project> with TickerProviderStateMixin {
     }
 
     _tabsName = _tabs.map((item) {
-      return Tab(text: item["name"], );
+      return Tab(
+        text: item["name"],
+      );
     }).toList();
+
+   // _tabsName.add(dd());
 
     setState(() {
       _tabController = TabController(length: _tabsName.length, vsync: this);
@@ -82,7 +83,25 @@ class _ProjectState extends State<Project> with TickerProviderStateMixin {
     _tabController.addListener(() {
       _onTabChanged();
     });
+  }
 
+  Widget dd() {
+    return DropdownButton(
+      items: _tabs.map((item) {
+        return DropdownMenuItem<String>(
+          value: item["name"],
+          child: Text(
+            item["name"],
+          ),
+        );
+      }).toList(),
+      onChanged: (value) {
+        setState(() {
+          selectedValue = value as String?;
+        });
+      },
+      value: selectedValue,
+    );
   }
 
   @override
@@ -90,5 +109,4 @@ class _ProjectState extends State<Project> with TickerProviderStateMixin {
     _tabController.dispose();
     super.dispose();
   }
-
 }

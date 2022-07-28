@@ -15,6 +15,10 @@ class Api {
 
   static const String PUBLIC_LIST = "wxarticle/list/";
 
+  static const String SYSTEM_TREE = "tree/json";
+
+  static const String NAVIGATOR_TREE = "navi/json";
+
   static getArticleList(int page) async {
     return HttpManager.getInstance().request("$ARTICLE_LIST$page/json");
   }
@@ -41,6 +45,14 @@ class Api {
 
   static getPublicList(int page, int id) async {
     return HttpManager.getInstance().request("$PUBLIC_LIST$id/$page/json");
+  }
+
+  static getSystemTree() async {
+    return HttpManager.getInstance().request(SYSTEM_TREE);
+  }
+
+  static getNavigatorTree() async {
+    return HttpManager.getInstance().request(NAVIGATOR_TREE);
   }
 
 }
