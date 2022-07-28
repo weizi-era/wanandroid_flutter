@@ -1,7 +1,8 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:wanandroid_flutter/ui/article_detail.dart';
+import 'package:wanandroid_flutter/ui/home/article_detail.dart';
+import 'package:wanandroid_flutter/utils/util.dart';
 
 class ArticleItem extends StatelessWidget {
   const ArticleItem({
@@ -30,7 +31,10 @@ class ArticleItem extends StatelessWidget {
 
     ///标题
     Text title = Text(
-      itemData['title'],
+      Util.parseHtmlString(itemData['title']),
+      maxLines: 2,
+      softWrap: true,
+      overflow: TextOverflow.ellipsis,
       style: new TextStyle(fontSize: 15.0, color: Colors.black, fontWeight: FontWeight.bold,),
       textAlign: TextAlign.left,
     );
@@ -71,7 +75,7 @@ class ArticleItem extends StatelessWidget {
             child: SlideTransition(   /// 平移动画
               position: Tween(begin: Offset(1.0, 0.0), end: Offset(0.0, 0.0))
                   .animate(animation),
-              child: ArticleDetail(itemData),
+              child: ArticleDetail(itemData: itemData,),
             ),
           );
           // return SlideTransition(  /// 平移动画

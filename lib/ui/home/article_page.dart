@@ -3,8 +3,8 @@ import 'package:banner_view/banner_view.dart';
 import 'package:banner_view/indicator/IndicatorWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/network/api.dart';
-import 'package:wanandroid_flutter/ui/article_detail.dart';
-import 'package:wanandroid_flutter/ui/article_item.dart';
+import 'package:wanandroid_flutter/ui/home/article_detail.dart';
+import 'package:wanandroid_flutter/ui/home/article_item.dart';
 
 class ArticlePage extends StatefulWidget {
   const ArticlePage({Key? key}) : super(key: key);
@@ -155,7 +155,7 @@ class _ArticlePageState extends State<ArticlePage> {
         child: Image.network(item["imagePath"], fit: BoxFit.cover,),
         onTap: () {  ///点击事件
           Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-            return ArticleDetail(item);
+            return ArticleDetail(itemData: item,);
           }));
         },
       );

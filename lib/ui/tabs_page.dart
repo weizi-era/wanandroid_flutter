@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:wanandroid_flutter/ui/home.dart';
+import 'package:wanandroid_flutter/ui/home/home.dart';
 import 'package:wanandroid_flutter/ui/mine.dart';
-import 'package:wanandroid_flutter/ui/project.dart';
-import 'package:wanandroid_flutter/ui/public.dart';
+import 'package:wanandroid_flutter/ui/project/project.dart';
+import 'package:wanandroid_flutter/ui/public/public.dart';
 import 'package:wanandroid_flutter/ui/system.dart';
 
 class TabsPage extends StatefulWidget {

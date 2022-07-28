@@ -1,7 +1,7 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:wanandroid_flutter/ui/article_page.dart';
+import 'package:wanandroid_flutter/ui/home/article_page.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);

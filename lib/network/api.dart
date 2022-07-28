@@ -11,6 +11,10 @@ class Api {
 
   static const String PROJECT_LIST = "project/list/";
 
+  static const String PUBLIC_TAB = "wxarticle/chapters/json";
+
+  static const String PUBLIC_LIST = "wxarticle/list/";
+
   static getArticleList(int page) async {
     return HttpManager.getInstance().request("$ARTICLE_LIST$page/json");
   }
@@ -30,4 +34,13 @@ class Api {
           "cid": cid,
         });
   }
+
+  static getPublicTab() async {
+    return HttpManager.getInstance().request(PUBLIC_TAB);
+  }
+
+  static getPublicList(int page, int id) async {
+    return HttpManager.getInstance().request("$PUBLIC_LIST$id/$page/json");
+  }
+
 }

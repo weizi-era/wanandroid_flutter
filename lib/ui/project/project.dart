@@ -3,8 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/network/api.dart';
 import 'package:wanandroid_flutter/network/http_manager.dart';
-import 'package:wanandroid_flutter/ui/project_item.dart';
-import 'package:wanandroid_flutter/ui/project_page.dart';
+import 'package:wanandroid_flutter/ui/project/project_item.dart';
+import 'package:wanandroid_flutter/ui/project/project_page.dart';
+
 
 class Project extends StatefulWidget {
   const Project({Key? key}) : super(key: key);
@@ -28,10 +29,6 @@ class _ProjectState extends State<Project> with TickerProviderStateMixin {
   void initState() {
     super.initState();
 
-   // getwait();
-
-
-    //print(_tabsName.length);
     _tabController = TabController(length: 0, vsync: this);
 
     _getProjectTab();
@@ -88,15 +85,10 @@ class _ProjectState extends State<Project> with TickerProviderStateMixin {
 
   }
 
-  // Future<void> getwait() async {
-  //
-  //   Iterable<Future> futures = [_getProjectTab()];
-  //
-  //   Future.wait(futures);
-  //
-  //   setState(() {});
-  //   return;
-  //
-  // }
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
 }

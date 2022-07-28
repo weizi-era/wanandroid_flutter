@@ -37,6 +37,7 @@ dependencies:
   dio: ^4.0.6
   banner_view: ^1.1.2
   webview_flutter: ^3.0.4
+  html: ^0.15.0
 
 dev_dependencies:
   flutter_test:

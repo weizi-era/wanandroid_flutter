@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/network/api.dart';
-import 'package:wanandroid_flutter/ui/project_item.dart';
-class ProjectPage extends StatefulWidget {
+import 'package:wanandroid_flutter/ui/public/public_item.dart';
 
-   ProjectPage({Key? key,this.id}) : super(key: key);
+class PublicPage extends StatefulWidget {
+  const PublicPage({Key? key, required this.id}) : super(key: key);
 
-   final id;
+  final id;
+
   @override
-  State<ProjectPage> createState() => _ProjectPageState(id);
+  State<PublicPage> createState() => _PublicPageState(id);
 }
 
-class _ProjectPageState extends State<ProjectPage> {
+class _PublicPageState extends State<PublicPage> {
 
   var id;
 
-  _ProjectPageState(this.id);
+  _PublicPageState(this.id);
 
   bool _isHidden = true;
 
@@ -26,12 +27,12 @@ class _ProjectPageState extends State<ProjectPage> {
   /// 当前页数
   var curPage = 0;
 
-  /// 滑动控制器
-  ScrollController _controller = ScrollController();
+  late ScrollController _controller;
 
   @override
   void initState() {
     super.initState();
+    _controller = ScrollController();
     _controller.addListener(() {
       /// 获得ScrollController监听控件可以滚动的最大范围
       var maxScroll = _controller.position.maxScrollExtent;
@@ -42,7 +43,7 @@ class _ProjectPageState extends State<ProjectPage> {
       ///当前滑动位置到达底部，同时还有更多数据
       if (maxScroll == pixels && curPage < totalPages) {
         ///加载更多
-        _getProjectList(id);
+        _getPublicList(id);
       }
     });
 
@@ -50,15 +51,9 @@ class _ProjectPageState extends State<ProjectPage> {
   }
 
   @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Stack(
-      children: <Widget>[
+      children: [
         Offstage(
           offstage: !_isHidden,
           child: Center(child: CircularProgressIndicator(),),
@@ -78,28 +73,27 @@ class _ProjectPageState extends State<ProjectPage> {
     );
   }
 
-  Widget _itemBuilder(int i) {
-    var itemArticle = articles[i];
-    print(itemArticle);
-    return ProjectItem(itemData: itemArticle,);
-  }
-
-  /// 下拉刷新
   Future<void> _pullToRefresh() async {
+
     curPage = 1;
-    Iterable<Future> futures = [_getProjectList(id)];
+
+    Iterable<Future> futures = [_getPublicList(id)];
 
     await Future.wait(futures);
 
     _isHidden = false;
 
-    setState(() {});
+    setState(() {
+
+    });
+
     return;
+
   }
 
-  _getProjectList(int cid) async {
+  _getPublicList(int id) async {
 
-    var data = await Api.getProjectList(curPage, cid);
+    var data = await Api.getPublicList(curPage, id);
     if (data != null) {
       var map = data["data"];
       var datas = map["datas"];
@@ -117,5 +111,9 @@ class _ProjectPageState extends State<ProjectPage> {
       });
     }
   }
-}
 
+  _itemBuilder(int i) {
+    var itemArticle = articles[i];
+    return PublicItem(itemData: itemArticle,);
+  }
+}
