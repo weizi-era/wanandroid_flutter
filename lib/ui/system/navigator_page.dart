@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/network/api.dart';
 import 'package:wanandroid_flutter/ui/system/system_item.dart';
 
-class SystemPage extends StatefulWidget {
-  const SystemPage({Key? key, required this.flag}) : super(key: key);
+class NavigatorPage extends StatefulWidget {
+  const NavigatorPage({Key? key, required this.flag}) : super(key: key);
 
   final int flag;
 
   @override
-  State<SystemPage> createState() => _SystemPageState();
+  State<NavigatorPage> createState() => _NavigatorPageState();
 }
 
-class _SystemPageState extends State<SystemPage> {
-  List _systemList = [];
+class _NavigatorPageState extends State<NavigatorPage> {
+  List _navigatorList = [];
 
   ScrollController _controller = ScrollController();
 
@@ -35,19 +35,19 @@ class _SystemPageState extends State<SystemPage> {
           child: Center(child: CircularProgressIndicator(),),
         ),
         Offstage(
-          offstage: _isHidden,
-          child: ListView.builder(
-            itemBuilder: (context, i) => _itemBuilder(i),
-            controller: _controller,
-            itemCount: _systemList.length + 1,
-          )
+            offstage: _isHidden,
+            child: ListView.builder(
+              itemBuilder: (context, i) => _itemBuilder(i),
+              controller: _controller,
+              itemCount: _navigatorList.length + 1,
+            )
         )
       ],
     );
   }
 
   Widget _itemBuilder(int i) {
-    var itemData = _systemList[i];
+    var itemData = _navigatorList[i];
     print(itemData);
     return SystemItem(
       itemData: itemData,
@@ -55,11 +55,11 @@ class _SystemPageState extends State<SystemPage> {
     );
   }
 
-  _getSystemTree() async {
-    var data = await Api.getSystemTree();
+  _getNavigatorTree() async {
+    var data = await Api.getNavigatorTree();
     if (data != null) {
-      _systemList.clear();
-      _systemList.addAll(data["data"]);
+      _navigatorList.clear();
+      _navigatorList.addAll(data["data"]);
     }
 
     setState(() {
@@ -68,7 +68,7 @@ class _SystemPageState extends State<SystemPage> {
   }
 
   Future<void> _pullToRefresh() async {
-    Iterable<Future> futures = [_getSystemTree()];
+    Iterable<Future> futures = [_getNavigatorTree()];
 
     await Future.wait(futures);
 

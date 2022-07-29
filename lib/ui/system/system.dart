@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:wanandroid_flutter/network/api.dart';
+import 'package:wanandroid_flutter/ui/system/navigator_page.dart';
 import 'package:wanandroid_flutter/ui/system/system_page.dart';
 
 class System extends StatefulWidget {
@@ -54,8 +56,8 @@ class _SystemState extends State<System> with TickerProviderStateMixin {
         ),
         body: TabBarView(
           children: [
-            SystemPage(),
-            SystemPage(),
+            SystemPage(flag: Api.SYSTEM_FLAG),
+            NavigatorPage(flag: Api.NAVIGATOR_FLAG),
           ],
           controller: _tabController,
         ));

@@ -1,89 +1,109 @@
 import 'package:flutter/material.dart';
-
-double boxSize = 40.0;
+import 'package:wanandroid_flutter/network/api.dart';
 
 class SystemItem extends StatelessWidget {
-  const SystemItem({Key? key, required this.itemData}) : super(key: key);
+  SystemItem({Key? key, required this.itemData, required this.flag}) : super(key: key);
 
   final itemData;
+
+  final int flag;
+
+  List _child = [];
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+      padding: EdgeInsets.fromLTRB(10, 20, 10, 0),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(itemData["name"]),
-          flow(),
+          Text(
+            itemData["name"],
+            style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 16.0),
+          ),
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: flow(),
+          ),
         ],
       ),
     );
   }
 
   Widget flow() {
-    List child = itemData["children"];
-   // List name = child["name"];
-    return Flow(
-      delegate: MyFlowDelegate(),
-      children: List.generate(child.length, (index) {
-        return oval(child[index]["name"]);
+    if (flag == Api.SYSTEM_FLAG) {
+      _child = itemData["children"];
+    } else {
+      _child = itemData["articles"];
+    }
+
+    return Wrap(
+      spacing: 10.0,
+      // runSpacing: 5.0,
+      alignment: WrapAlignment.start,
+      //delegate: MyFlowDelegate(margin: const EdgeInsets.all(5)),
+      children: List.generate(_child.length, (index) {
+        return oval(_child[index]);
       }),
     );
   }
 
-  Widget oval(String text) {
-    return Container(
-      width: boxSize,
-      height: boxSize,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-            colors: [Colors.orangeAccent, Colors.orange, Colors.deepOrange]),
-      ),
-      child: Text(
-        text,
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
+  Widget oval(var child) {
+    return InkWell(
+      onTap: () {
+        print(child["name"]);
+      },
+      child: Chip(
+        backgroundColor: Colors.grey[300],
+        padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+        // avatar: CircleAvatar(backgroundColor: Colors.blue, child: Text('A')),
+        label: Text(
+          flag == Api.SYSTEM_FLAG ? child["name"] : child["title"],
+          style: TextStyle(
+            color: Colors.grey[700],
+          ),
         ),
       ),
     );
   }
-
 }
 
 class MyFlowDelegate extends FlowDelegate {
+  EdgeInsets? margin;
+  double width = 0;
+  double height = 0;
+
+  MyFlowDelegate({this.margin = EdgeInsets.zero});
+
   @override
   void paintChildren(FlowPaintingContext context) {
-    var screenW = context.size.width;
-
-    double padding = 10; //间距
-    double offsetX = padding; //x坐标
-    double offsetY = padding; //y坐标
+    var x = margin!.left;
+    var y = margin!.top;
 
     for (int i = 0; i < context.childCount; i++) {
-      /*如果当前x左边加上子控件宽度小于屏幕宽度  则继续绘制  否则换行*/
-      if (offsetX + boxSize < screenW) {
-        /*绘制子控件*/
-        context.paintChild(i,
-            transform: Matrix4.translationValues(offsetX, offsetY, 0));
-        /*更改x坐标*/
-        offsetX = offsetX + boxSize + padding;
+      var width = context.getChildSize(i)!.width + x + margin!.right;
+      if (width < context.size.width) {
+        context.paintChild(i, transform: Matrix4.translationValues(x, y, 0));
+        x = width + margin!.left;
       } else {
-        /*将x坐标重置为margin*/
-        offsetX = padding;
-        /*计算y坐标的值*/
-        offsetY = offsetY + boxSize + padding;
-        /*绘制子控件*/
-        context.paintChild(i,
-            transform: Matrix4.translationValues(offsetX, offsetY, 0));
+        x = margin!.left;
+        y += context.getChildSize(i)!.height + margin!.top + margin!.bottom;
+        context.paintChild(i, transform: Matrix4.translationValues(x, y, 0));
+        x += context.getChildSize(i)!.width + margin!.left + margin!.right;
       }
     }
   }
 
   @override
   bool shouldRepaint(covariant FlowDelegate oldDelegate) {
-    return true;
+    return this != oldDelegate;
+  }
+
+  @override
+  Size getSize(BoxConstraints constraints) {
+    return const Size(double.infinity, 200);
   }
 }

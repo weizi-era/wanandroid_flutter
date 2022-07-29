@@ -55,4 +55,7 @@ class Api {
     return HttpManager.getInstance().request(NAVIGATOR_TREE);
   }
 
+  static const int SYSTEM_FLAG = 1;
+
+  static const int NAVIGATOR_FLAG = 2;
 }
