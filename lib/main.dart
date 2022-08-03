@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:wanandroid_flutter/ui/tabs_page.dart';
 
 void main() {
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
       //   primarySwatch: Colors.blue,
       // ),
       home:TabsPage(),
+      builder: EasyLoading.init(),
     );
   }
 }

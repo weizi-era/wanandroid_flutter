@@ -16,24 +16,21 @@ class _PublicItemState extends State<PublicItem> {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      child: Card(
+    return Card(
         elevation: 4.0,
-        child: Column(
+        child: InkWell(child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(padding: EdgeInsets.fromLTRB(10, 10, 10, 5), child: top(),),
             Padding(padding: EdgeInsets.fromLTRB(10, 5, 10, 5), child: middle(),),
             Padding(padding: EdgeInsets.fromLTRB(10, 0, 10, 5), child: bottom(),),
           ],
-        ),
-      ),
-      onTap: () {
+        ), onTap: () {
           Navigator.of(context).push(MaterialPageRoute(builder: (context) {
             return ArticleDetail(itemData: widget.itemData);
           }));
-      },
-    );
+        },)
+      );
   }
 
   Widget top() {

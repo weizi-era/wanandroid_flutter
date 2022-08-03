@@ -19,16 +19,16 @@ class _ProjectItemState extends State<ProjectItem> {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      child: Card(
-        elevation: 4.0,
+    return Card(
+      elevation: 4.0,
+      child: InkWell(
         child: itemView(),
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+            return ArticleDetail(itemData: widget.itemData);
+          }));
+        },
       ),
-      onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-          return ArticleDetail(itemData: widget.itemData);
-        }));
-      },
     );
   }
 
@@ -119,7 +119,10 @@ class _ProjectItemState extends State<ProjectItem> {
                 isCollect = !isCollect;
               });
             },
-            icon: Icon(isCollect ? Icons.star : Icons.star_border, color: Colors.red,)),
+            icon: Icon(
+              isCollect ? Icons.star : Icons.star_border,
+              color: Colors.red,
+            )),
       ],
     );
   }

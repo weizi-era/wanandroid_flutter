@@ -1,23 +1,26 @@
 import 'package:wanandroid_flutter/network/http_manager.dart';
 
+
 class Api {
-  static const String baseUrl = "http://www.wanandroid.com/";
+  static const String baseUrl = "https://www.wanandroid.com";
 
-  static const String ARTICLE_LIST = "article/list/";
+  static const String ARTICLE_LIST = "/article/list/";
 
-  static const String BANNER = "banner/json";
+  static const String BANNER = "/banner/json";
 
-  static const String PROJECT_TAB = "project/tree/json";
+  static const String PROJECT_TAB = "/project/tree/json";
 
-  static const String PROJECT_LIST = "project/list/";
+  static const String PROJECT_LIST = "/project/list/";
 
-  static const String PUBLIC_TAB = "wxarticle/chapters/json";
+  static const String PUBLIC_TAB = "/wxarticle/chapters/json";
 
-  static const String PUBLIC_LIST = "wxarticle/list/";
+  static const String PUBLIC_LIST = "/wxarticle/list/";
 
-  static const String SYSTEM_TREE = "tree/json";
+  static const String SYSTEM_TREE = "/tree/json";
 
-  static const String NAVIGATOR_TREE = "navi/json";
+  static const String NAVIGATOR_TREE = "/navi/json";
+
+  static const String LOGIN = "/user/login";
 
   static getArticleList(int page) async {
     return HttpManager.getInstance().request("$ARTICLE_LIST$page/json");
@@ -53,6 +56,13 @@ class Api {
 
   static getNavigatorTree() async {
     return HttpManager.getInstance().request(NAVIGATOR_TREE);
+  }
+  
+  static getLogin(String username, String password) async {
+    return HttpManager.getInstance().request(LOGIN, method: "POST", queryParameters: {
+      "username" : username,
+      "password" : password,
+    });
   }
 
   static const int SYSTEM_FLAG = 1;

@@ -57,16 +57,16 @@ class SystemItem extends StatelessWidget {
         print(child["name"]);
       },
       child: Chip(
-        backgroundColor: Colors.grey[300],
-        padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-        // avatar: CircleAvatar(backgroundColor: Colors.blue, child: Text('A')),
-        label: Text(
-          flag == Api.SYSTEM_FLAG ? child["name"] : child["title"],
-          style: TextStyle(
-            color: Colors.grey[700],
+          backgroundColor: Colors.grey[300],
+          padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+          // avatar: CircleAvatar(backgroundColor: Colors.blue, child: Text('A')),
+          label: Text(
+            flag == Api.SYSTEM_FLAG ? child["name"] : child["title"],
+            style: TextStyle(
+              color: Colors.grey[700],
+            ),
           ),
         ),
-      ),
     );
   }
 }

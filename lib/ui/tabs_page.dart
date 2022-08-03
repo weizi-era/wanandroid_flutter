@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/ui/home/home.dart';
-import 'package:wanandroid_flutter/ui/mine.dart';
+import 'package:wanandroid_flutter/ui/mine/mine.dart';
 import 'package:wanandroid_flutter/ui/project/project.dart';
 import 'package:wanandroid_flutter/ui/public/public.dart';
 import 'package:wanandroid_flutter/ui/system/system.dart';
