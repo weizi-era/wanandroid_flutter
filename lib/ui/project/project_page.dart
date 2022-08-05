@@ -4,17 +4,13 @@ import 'package:wanandroid_flutter/ui/project/project_item.dart';
 class ProjectPage extends StatefulWidget {
 
    const ProjectPage({Key? key, required this.id}) : super(key: key);
-
    final id;
-  @override
-  State<ProjectPage> createState() => _ProjectPageState(id);
+
+   @override
+   State<ProjectPage> createState() => _ProjectPageState();
 }
 
 class _ProjectPageState extends State<ProjectPage> {
-
-  var id;
-
-  _ProjectPageState(this.id);
 
   bool _isHidden = true;
 
@@ -42,7 +38,7 @@ class _ProjectPageState extends State<ProjectPage> {
       ///当前滑动位置到达底部，同时还有更多数据
       if (maxScroll == pixels && curPage < totalPages) {
         ///加载更多
-        _getProjectList(id);
+        _getProjectList(widget.id);
       }
     });
 
@@ -78,16 +74,38 @@ class _ProjectPageState extends State<ProjectPage> {
     );
   }
 
-  Widget _itemBuilder(int i) {
-    var itemArticle = articles[i];
-    print(itemArticle);
-    return ProjectItem(itemData: itemArticle,);
+  Widget _itemBuilder(int index) {
+
+    if (index == articles.length) {
+      if (curPage < totalPages) {
+        return Container(
+          padding: const EdgeInsets.all(16.0),
+          alignment: Alignment.center,
+          child: SizedBox(
+            width: 24.0,
+            height: 24.0,
+            child: CircularProgressIndicator(strokeWidth: 2.0),
+          ),
+        );
+      } else {
+        return Container(
+          alignment: Alignment.center,
+          padding: EdgeInsets.all(16.0),
+          child: Text(
+            "没有更多了",
+            style: TextStyle(color: Colors.grey),
+          ),
+        );
+      }
+    }
+
+    return ProjectItem(itemData: articles[index],);
   }
 
   /// 下拉刷新
   Future<void> _pullToRefresh() async {
     curPage = 1;
-    Iterable<Future> futures = [_getProjectList(id)];
+    Iterable<Future> futures = [_getProjectList(widget.id)];
 
     await Future.wait(futures);
 

@@ -46,11 +46,13 @@ class _NavigatorPageState extends State<NavigatorPage> {
     );
   }
 
-  Widget _itemBuilder(int i) {
-    var itemData = _navigatorList[i];
-    print(itemData);
+  Widget _itemBuilder(int index) {
+    if (index == _navigatorList.length) {
+      return Container();
+    }
+
     return SystemItem(
-      itemData: itemData,
+      itemData: _navigatorList[index],
       flag: widget.flag,
     );
   }

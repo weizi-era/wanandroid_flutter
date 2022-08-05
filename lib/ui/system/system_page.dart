@@ -52,11 +52,14 @@ class _SystemPageState extends State<SystemPage> {
     );
   }
 
-  Widget _itemBuilder(int i) {
-    var itemData = _systemList[i];
-    print(itemData);
+  Widget _itemBuilder(int index) {
+
+    if (index == _systemList.length) {
+      return Container();
+    }
+
     return SystemItem(
-      itemData: itemData,
+      itemData: _systemList[index],
       flag: widget.flag,
     );
   }

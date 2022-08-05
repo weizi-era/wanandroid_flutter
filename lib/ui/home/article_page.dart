@@ -30,15 +30,25 @@ class _ArticlePageState extends State<ArticlePage> {
   /// 当前页数
   var curPage = 0;
 
+  static const loadingTag = "##loading##"; // 表尾标记
+  var _words = <String>[loadingTag];
+
+  var maxScroll;
+
+  var pixels;
+
   @override
   void initState() {
     super.initState();
     _controller.addListener(() {
       /// 获得ScrollController监听控件可以滚动的最大范围
-      var maxScroll = _controller.position.maxScrollExtent;
+      maxScroll = _controller.position.maxScrollExtent;
 
+      debugPrint("maxScroll == $maxScroll");
       /// 获得当前位置的像素值
-      var pixels = _controller.position.pixels;
+      pixels = _controller.position.pixels;
+
+      debugPrint("pixels == $pixels");
 
       ///当前滑动位置到达底部，同时还有更多数据
       if (maxScroll == pixels && curPage < totalPages) {
@@ -137,15 +147,38 @@ class _ArticlePageState extends State<ArticlePage> {
     );
   }
 
-  Widget _itemBuilder(int i) {
-    if (i == 0) {
+  Widget _itemBuilder(int index) {
+    if (index == 0) {
       return Container(
           height: MediaQuery.of(context).size.height * 0.3,
           child: _bannerView(),
         );
     }
-    var itemData = articles[i - 1];
-    return ArticleItem(itemData: itemData,);
+
+    if (index == articles.length) {
+      if (curPage < totalPages) {
+        return Container(
+          padding: const EdgeInsets.all(16.0),
+          alignment: Alignment.center,
+          child: SizedBox(
+            width: 24.0,
+            height: 24.0,
+            child: CircularProgressIndicator(strokeWidth: 2.0),
+          ),
+        );
+      } else {
+        return Container(
+          alignment: Alignment.center,
+          padding: EdgeInsets.all(16.0),
+          child: Text(
+            "没有更多了",
+            style: TextStyle(color: Colors.grey),
+          ),
+        );
+      }
+    }
+
+    return ArticleItem(itemData: articles[index - 1],);
   }
 
   Widget? _bannerView() {

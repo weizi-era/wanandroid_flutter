@@ -8,14 +8,10 @@ class PublicPage extends StatefulWidget {
   final id;
 
   @override
-  State<PublicPage> createState() => _PublicPageState(id);
+  State<PublicPage> createState() => _PublicPageState();
 }
 
 class _PublicPageState extends State<PublicPage> {
-
-  var id;
-
-  _PublicPageState(this.id);
 
   bool _isHidden = true;
 
@@ -43,7 +39,7 @@ class _PublicPageState extends State<PublicPage> {
       ///当前滑动位置到达底部，同时还有更多数据
       if (maxScroll == pixels && curPage < totalPages) {
         ///加载更多
-        _getPublicList(id);
+        _getPublicList(widget.id);
       }
     });
 
@@ -77,7 +73,7 @@ class _PublicPageState extends State<PublicPage> {
 
     curPage = 1;
 
-    Iterable<Future> futures = [_getPublicList(id)];
+    Iterable<Future> futures = [_getPublicList(widget.id)];
 
     await Future.wait(futures);
 
@@ -112,8 +108,31 @@ class _PublicPageState extends State<PublicPage> {
     }
   }
 
-  _itemBuilder(int i) {
-    var itemArticle = articles[i];
-    return PublicItem(itemData: itemArticle,);
+  _itemBuilder(int index) {
+
+    if (index == articles.length) {
+      if (curPage < totalPages) {
+        return Container(
+          padding: const EdgeInsets.all(16.0),
+          alignment: Alignment.center,
+          child: SizedBox(
+            width: 24.0,
+            height: 24.0,
+            child: CircularProgressIndicator(strokeWidth: 2.0),
+          ),
+        );
+      } else {
+        return Container(
+          alignment: Alignment.center,
+          padding: EdgeInsets.all(16.0),
+          child: Text(
+            "没有更多了",
+            style: TextStyle(color: Colors.grey),
+          ),
+        );
+      }
+    }
+
+    return PublicItem(itemData: articles[index],);
   }
 }
