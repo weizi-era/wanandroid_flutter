@@ -16,10 +16,11 @@ class HttpManager {
     BaseOptions options = BaseOptions(
       baseUrl: Api.baseUrl,
       connectTimeout: 5000,
-      receiveTimeout: 3000,
+      receiveTimeout: 10000,
     );
 
     _dio = Dio(options);
+
 
     _dio!.interceptors.add(LogInterceptor(requestBody: true, responseBody: true));
 
@@ -46,10 +47,10 @@ class HttpManager {
 
   }
 
-  request(url, {method = "GET", queryParameters}) async {
+  request(url, {method = "GET", queryParameters, headers}) async {
     try {
       Response response = await _dio!.request(url,
-          options: Options(method: method), queryParameters: queryParameters);
+          options: Options(method: method, headers: headers), queryParameters: queryParameters);
       return response.data;
     } on DioError catch (e) {
       print("response error ---- $e");
@@ -57,6 +58,8 @@ class HttpManager {
       return null;
     }
   }
+
+
 
   /*
    * error统一处理

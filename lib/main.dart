@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:wanandroid_flutter/ui/tabs_page.dart';
+import 'package:wanandroid_flutter/utils/sp_util.dart';
 
 void main() {
   runApp(const MyApp());
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       statusBarBrightness: Brightness.light));
+  SPUtil.perInit();
 }
 
 class MyApp extends StatelessWidget {
@@ -26,4 +28,5 @@ class MyApp extends StatelessWidget {
       builder: EasyLoading.init(),
     );
   }
+
 }

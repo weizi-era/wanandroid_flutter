@@ -3,6 +3,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:wanandroid_flutter/network/api.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:wanandroid_flutter/ui/mine/mine.dart';
+import 'package:wanandroid_flutter/utils/sp_util.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -142,6 +143,9 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
     var password = _passwordController.text.toString();
 
     var loginResult = await Api.getLogin(username, password);
+
+    SPUtil().setValue("username", username);
+    SPUtil().setValue("password", password);
 
     print("loginResult :${loginResult}");
 

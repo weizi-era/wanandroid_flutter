@@ -1,4 +1,5 @@
 import 'package:wanandroid_flutter/network/http_manager.dart';
+import 'package:wanandroid_flutter/utils/sp_util.dart';
 
 
 class Api {
@@ -21,6 +22,12 @@ class Api {
   static const String NAVIGATOR_TREE = "/navi/json";
 
   static const String LOGIN = "/user/login";
+
+  static const String SCORE_INFO = "/lg/coin/userinfo/json";
+
+  static const String RANK_LIST = "/coin/rank/";
+
+  static const String SCORE_LIST = "/lg/coin/list/";
 
   static getArticleList(int page) async {
     return HttpManager.getInstance().request("$ARTICLE_LIST$page/json");
@@ -63,6 +70,20 @@ class Api {
       "username" : username,
       "password" : password,
     });
+  }
+  
+  static getScoreInfo() async {
+    return HttpManager.getInstance().request(SCORE_INFO, headers: {
+      "Cookie" : "loginUserName=${SPUtil().getValue("username")},loginUserPassword=${SPUtil().getValue("password")}",
+    });
+  }
+
+  static getScoreList(int page) async {
+    return HttpManager.getInstance().request("$SCORE_LIST$page/json");
+  }
+  
+  static getRankList(int page) async {
+    return HttpManager.getInstance().request("$RANK_LIST$page/json");
   }
 
   static const int SYSTEM_FLAG = 1;
