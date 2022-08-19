@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:wanandroid_flutter/ui/home/article_detail.dart';
-import 'package:wanandroid_flutter/utils/navigator_util.dart';
 import 'package:wanandroid_flutter/utils/util.dart';
 
-class PublicItem extends StatefulWidget {
+class CollectionItem extends StatefulWidget {
+  const CollectionItem({Key? key, required this.itemData}) : super(key: key);
+
   final itemData;
-  const PublicItem({Key? key, required this.itemData}) : super(key: key);
 
   @override
-  State<PublicItem> createState() => _PublicItemState();
+  State<CollectionItem> createState() => _CollectionItemState();
 }
 
-class _PublicItemState extends State<PublicItem> {
-
-  bool isCollect = false;
-
+class _CollectionItemState extends State<CollectionItem> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -27,12 +25,11 @@ class _PublicItemState extends State<PublicItem> {
             Padding(padding: EdgeInsets.fromLTRB(10, 0, 10, 5), child: bottom(),),
           ],
         ), onTap: () {
-          NavigatorUtils.navigate(context, ArticleDetail(itemData: widget.itemData));
-          // Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-          //   return ArticleDetail(itemData: widget.itemData);
-          // }));
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+            return ArticleDetail(itemData: widget.itemData);
+          }));
         },)
-      );
+    );
   }
 
   Widget top() {
@@ -68,17 +65,15 @@ class _PublicItemState extends State<PublicItem> {
       children: [
         Expanded(child: Text.rich(
           TextSpan(children: [
-            TextSpan(text: "公众号·", style: TextStyle(color: Colors.grey[600])),
-            TextSpan(text: widget.itemData["author"], style: TextStyle(color: Colors.grey[600])),
+            TextSpan(text: widget.itemData["chapterName"], style: TextStyle(color: Colors.grey[600])),
           ]),
         )),
         IconButton(onPressed: () {
           setState(() {
-            isCollect = !isCollect;
+            // isCollect = !isCollect;
           });
-        }, icon: Icon(isCollect? Icons.star : Icons.star_border, color: Colors.red,)),
+        }, icon: Icon(Icons.star, color: Colors.red,)),
       ],
     );
   }
-
 }

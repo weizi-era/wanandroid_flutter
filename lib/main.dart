@@ -12,6 +12,7 @@ void main() {
       statusBarColor: Colors.transparent,
       statusBarBrightness: Brightness.light));
   SPUtil.perInit();
+  EasyLoading.instance.userInteractions = false;  // false：不允许用户操作 类似EasyLoading拿到焦点
 }
 
 class MyApp extends StatelessWidget {
@@ -21,9 +22,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      // theme: ThemeData(
-      //   primarySwatch: Colors.blue,
-      // ),
+      theme: ThemeData(
+
+      ),
       home:TabsPage(),
       builder: EasyLoading.init(),
     );

@@ -7,7 +7,6 @@ import 'package:webview_flutter/webview_flutter.dart';
 class ArticleDetail extends StatefulWidget {
   const ArticleDetail({Key? key, required this.itemData, }) : super(key: key);
 
-  //final url;
   final itemData;
   @override
   State<ArticleDetail> createState() => _ArticleDetailState();

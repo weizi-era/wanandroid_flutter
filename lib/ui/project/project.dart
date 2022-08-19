@@ -22,8 +22,6 @@ class _ProjectState extends State<Project> with TickerProviderStateMixin {
 
   var _currentIndex = 0;
 
-  String? selectedValue;
-
   @override
   void initState() {
     super.initState();
@@ -38,8 +36,6 @@ class _ProjectState extends State<Project> with TickerProviderStateMixin {
       setState(() {
         _currentIndex = _tabController.index;
       });
-
-      //_getProjectList(3);
     }
   }
 
@@ -74,8 +70,6 @@ class _ProjectState extends State<Project> with TickerProviderStateMixin {
       );
     }).toList();
 
-   // _tabsName.add(dd());
-
     setState(() {
       _tabController = TabController(length: _tabsName.length, vsync: this);
     });
@@ -85,28 +79,10 @@ class _ProjectState extends State<Project> with TickerProviderStateMixin {
     });
   }
 
-  Widget dd() {
-    return DropdownButton(
-      items: _tabs.map((item) {
-        return DropdownMenuItem<String>(
-          value: item["name"],
-          child: Text(
-            item["name"],
-          ),
-        );
-      }).toList(),
-      onChanged: (value) {
-        setState(() {
-          selectedValue = value as String?;
-        });
-      },
-      value: selectedValue,
-    );
-  }
-
   @override
   void dispose() {
     _tabController.dispose();
     super.dispose();
   }
+
 }

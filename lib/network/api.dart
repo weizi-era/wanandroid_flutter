@@ -29,6 +29,12 @@ class Api {
 
   static const String SCORE_LIST = "/lg/coin/list/";
 
+  static const String MY_COLLECTION = "/lg/collect/list/";
+
+  static const String MY_SHARED = "/user/lg/private_articles/";
+
+  static const String LOGOUT = "/user/logout/json";
+
   static getArticleList(int page) async {
     return HttpManager.getInstance().request("$ARTICLE_LIST$page/json");
   }
@@ -74,7 +80,7 @@ class Api {
   
   static getScoreInfo() async {
     return HttpManager.getInstance().request(SCORE_INFO, headers: {
-      "Cookie" : "loginUserName=${SPUtil().getValue("username")},loginUserPassword=${SPUtil().getValue("password")}",
+      "Cookie" : SPUtil().getValue("Cookie"),
     });
   }
 
@@ -84,6 +90,22 @@ class Api {
   
   static getRankList(int page) async {
     return HttpManager.getInstance().request("$RANK_LIST$page/json");
+  }
+
+  static getCollectionList(int page) async {
+    return HttpManager.getInstance().request("$MY_COLLECTION$page/json", headers: {
+      "Cookie" : SPUtil().getValue("Cookie"),
+    });
+  }
+
+  static getSharedList(int page) async {
+    return HttpManager.getInstance().request("$MY_SHARED$page/json", headers: {
+      "Cookie" : SPUtil().getValue("Cookie"),
+    });
+  }
+
+  static logout() async {
+    return HttpManager.getInstance().request(LOGOUT);
   }
 
   static const int SYSTEM_FLAG = 1;

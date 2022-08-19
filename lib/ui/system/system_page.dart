@@ -11,7 +11,7 @@ class SystemPage extends StatefulWidget {
   State<SystemPage> createState() => _SystemPageState();
 }
 
-class _SystemPageState extends State<SystemPage> {
+class _SystemPageState extends State<SystemPage> with AutomaticKeepAliveClientMixin {
   List _systemList = [];
 
   ScrollController _controller = ScrollController();
@@ -33,7 +33,7 @@ class _SystemPageState extends State<SystemPage> {
 
   @override
   Widget build(BuildContext context) {
-
+    super.build(context);
     return Stack(
       children: [
         Offstage(
@@ -89,4 +89,7 @@ class _SystemPageState extends State<SystemPage> {
 
     return;
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

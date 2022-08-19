@@ -78,4 +78,5 @@ class _PublicState extends State<Public> with TickerProviderStateMixin {
     _tabController.dispose();
     super.dispose();
   }
+
 }

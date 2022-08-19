@@ -24,24 +24,18 @@ class HttpManager {
 
     _dio!.interceptors.add(LogInterceptor(requestBody: true, responseBody: true));
 
-    _dio!.interceptors.add(CookieManager(CookieJar()));
+    //_dio!.interceptors.add(CookieManager(CookieJar()));
 
     //添加拦截器
     _dio!.interceptors.add(InterceptorsWrapper(onRequest: (options, handler) {
       print("请求之前");
       return handler.next(options);
-      // Do something before request is sent
-      //return options; //continue
     }, onResponse: (response, handler) {
       print("响应之前");
       return handler.next(response);
-      // Do something with response data
-      //return response; // continue
     }, onError: (DioError e, handler) {
       print("错误之前");
       return handler.next(e);
-      // Do something with response error
-      // return e; //continue
     }));
 
 

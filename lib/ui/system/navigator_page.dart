@@ -11,7 +11,7 @@ class NavigatorPage extends StatefulWidget {
   State<NavigatorPage> createState() => _NavigatorPageState();
 }
 
-class _NavigatorPageState extends State<NavigatorPage> {
+class _NavigatorPageState extends State<NavigatorPage> with AutomaticKeepAliveClientMixin {
   List _navigatorList = [];
 
   ScrollController _controller = ScrollController();
@@ -27,7 +27,7 @@ class _NavigatorPageState extends State<NavigatorPage> {
 
   @override
   Widget build(BuildContext context) {
-
+    super.build(context);
     return Stack(
       children: [
         Offstage(
@@ -82,4 +82,7 @@ class _NavigatorPageState extends State<NavigatorPage> {
 
     return;
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

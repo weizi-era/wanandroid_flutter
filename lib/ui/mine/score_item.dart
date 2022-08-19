@@ -27,7 +27,6 @@ class ScoreItem extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 10.0),
                   child: Text(time.substring(0, time.length - 4)),
-                  //child: Text(DateTime.fromMillisecondsSinceEpoch(scoreItem["date"]).toString().substring(0, DateTime.fromMillisecondsSinceEpoch(scoreItem["date"]).toString().length - 4)),
                 ),
               ],
             ),

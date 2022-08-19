@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/ui/home/article_detail.dart';
+import 'package:wanandroid_flutter/utils/navigator_util.dart';
 import 'package:wanandroid_flutter/utils/util.dart';
 
 class ArticleItem extends StatelessWidget {
@@ -64,19 +65,7 @@ class ArticleItem extends StatelessWidget {
     return Card(
         elevation: 4.0,
         child: InkWell(child: column, onTap: () {
-          Navigator.push(context, PageRouteBuilder(pageBuilder:
-              (BuildContext context, Animation<double> animation,
-              Animation<double> secondaryAnimation) {
-            return FadeTransition(  /// 淡入动画
-              opacity: animation,
-              child: SlideTransition(   /// 平移动画
-                position: Tween(begin: Offset(1.0, 0.0), end: Offset(0.0, 0.0))
-                    .animate(animation),
-                child: ArticleDetail(itemData: itemData,),
-              ),
-            );
-          }));
-          debugPrint("点击了第${itemData["link"]}得数据");
+          NavigatorUtils.navigate(context, ArticleDetail(itemData: itemData,));
         },),
       );
   }

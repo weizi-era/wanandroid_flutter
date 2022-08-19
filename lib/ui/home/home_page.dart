@@ -1,19 +1,20 @@
 
 import 'package:banner_view/banner_view.dart';
-import 'package:banner_view/indicator/IndicatorWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/network/api.dart';
 import 'package:wanandroid_flutter/ui/home/article_detail.dart';
 import 'package:wanandroid_flutter/ui/home/article_item.dart';
+import 'package:wanandroid_flutter/utils/cache_image.dart';
+import 'package:wanandroid_flutter/utils/navigator_util.dart';
 
-class ArticlePage extends StatefulWidget {
-  const ArticlePage({Key? key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<ArticlePage> createState() => _ArticlePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _ArticlePageState extends State<ArticlePage> {
+class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
 
   /// 滑动控制器
   ScrollController _controller = ScrollController();
@@ -118,9 +119,11 @@ class _ArticlePageState extends State<ArticlePage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text("首页",)),
+        centerTitle: true,
+        title: Text("首页",),
         actions: [
           IconButton(onPressed: () {}, icon: Icon(Icons.search)),
         ],
@@ -185,11 +188,9 @@ class _ArticlePageState extends State<ArticlePage> {
 
     List<Widget> list = banners.map((item) {
       return InkWell( /// 能让我们快速添加各种触摸事件的Widget
-        child: Image.network(item["imagePath"], fit: BoxFit.cover,),
+        child: CacheImage(item["imagePath"], clearMemoryCacheWhenDispose: true,),
         onTap: () {  ///点击事件
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-            return ArticleDetail(itemData: item,);
-          }));
+          NavigatorUtils.navigate(context, ArticleDetail(itemData: item,));
         },
       );
     }).toList();
@@ -203,5 +204,8 @@ class _ArticlePageState extends State<ArticlePage> {
       return null;
     }
   }
+
+  @override
+  bool get wantKeepAlive => true;
 
 }

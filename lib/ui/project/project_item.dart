@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/ui/home/article_detail.dart';
+import 'package:wanandroid_flutter/utils/cache_image.dart';
+import 'package:wanandroid_flutter/utils/navigator_util.dart';
 import 'package:wanandroid_flutter/utils/util.dart';
 
 class ProjectItem extends StatefulWidget {
@@ -24,9 +26,11 @@ class _ProjectItemState extends State<ProjectItem> {
       child: InkWell(
         child: itemView(),
         onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-            return ArticleDetail(itemData: widget.itemData);
-          }));
+          NavigatorUtils.navigate(
+              context, ArticleDetail(itemData: widget.itemData));
+          // Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+          //   return ArticleDetail(itemData: widget.itemData);
+          // }));
         },
       ),
     );
@@ -98,12 +102,11 @@ class _ProjectItemState extends State<ProjectItem> {
             ],
           ),
         ),
-        Image.network(
-          widget.itemData["envelopePic"],
-          width: 100,
-          height: 100,
-          fit: BoxFit.cover,
-        ),
+        CacheImage(widget.itemData["envelopePic"],
+            width: MediaQuery.of(context).size.width / 5,
+            height: MediaQuery.of(context).size.width / 4,
+            borderRadius: BorderRadius.circular(5.0),
+            clearMemoryCacheWhenDispose: true,),
       ],
     );
   }

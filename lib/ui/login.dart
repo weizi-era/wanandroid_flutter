@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:wanandroid_flutter/network/api.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:wanandroid_flutter/ui/mine/mine.dart';
+import 'package:wanandroid_flutter/ui/mine/mine_page.dart';
 import 'package:wanandroid_flutter/utils/sp_util.dart';
+import 'package:wanandroid_flutter/utils/toast_util.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -144,24 +145,20 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
 
     var loginResult = await Api.getLogin(username, password);
 
-    SPUtil().setValue("username", username);
-    SPUtil().setValue("password", password);
+    SPUtil().setValue("Cookie", "loginUserName=$username,loginUserPassword=$password");
 
-    print("loginResult :${loginResult}");
+    var userinfo = loginResult["data"];
 
-    if (loginResult["data"] == null) {
+    if (userinfo == null) {
       EasyLoading.dismiss();
-      Fluttertoast.showToast(
-          msg: "账号密码不匹配！",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0);
+      ToastUtils.show("账号密码不匹配！");
     } else {
+      SPUtil().setValue("login", true);
+      SPUtil().setValue("username", userinfo["nickname"].toString().isEmpty
+          ? userinfo["username"]
+          : userinfo["nickname"]);
       EasyLoading.dismiss();
-      Navigator.pop(context, loginResult["data"]);
+      Navigator.pop(context, userinfo);
     }
   }
 }

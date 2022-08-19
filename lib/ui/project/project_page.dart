@@ -10,7 +10,7 @@ class ProjectPage extends StatefulWidget {
    State<ProjectPage> createState() => _ProjectPageState();
 }
 
-class _ProjectPageState extends State<ProjectPage> {
+class _ProjectPageState extends State<ProjectPage> with AutomaticKeepAliveClientMixin {
 
   bool _isHidden = true;
 
@@ -53,6 +53,7 @@ class _ProjectPageState extends State<ProjectPage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Stack(
       children: <Widget>[
         Offstage(
@@ -135,5 +136,8 @@ class _ProjectPageState extends State<ProjectPage> {
       });
     }
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
