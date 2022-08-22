@@ -26,7 +26,7 @@ class _CollectionItemState extends State<CollectionItem> {
           ],
         ), onTap: () {
           Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-            return ArticleDetail(itemData: widget.itemData);
+            return ArticleDetail(title: widget.itemData["title"], link: widget.itemData["link"],);
           }));
         },)
     );

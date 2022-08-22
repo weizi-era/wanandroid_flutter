@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class ArticleDetail extends StatefulWidget {
-  const ArticleDetail({Key? key, required this.itemData, }) : super(key: key);
+  const ArticleDetail({Key? key, this.title = "", required this.link }) : super(key: key);
 
-  final itemData;
+  final title;
+  final link;
   @override
   State<ArticleDetail> createState() => _ArticleDetailState();
 }
@@ -35,7 +36,7 @@ class _ArticleDetailState extends State<ArticleDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.itemData["title"]),
+        title: Text(widget.title),
         leading: IconButton(onPressed: () {
           Navigator.pop(context);
         }, icon: Icon(Icons.arrow_back)),
@@ -54,7 +55,7 @@ class _ArticleDetailState extends State<ArticleDetail> {
             offstage: _isHidden,
             child: WebView(
               key: _key,
-              initialUrl: widget.itemData["link"],
+              initialUrl: widget.link,
               javascriptMode: JavascriptMode.unrestricted,
               onWebViewCreated: (WebViewController webViewController) {
                 _controller.complete(webViewController);

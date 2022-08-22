@@ -27,10 +27,7 @@ class _ProjectItemState extends State<ProjectItem> {
         child: itemView(),
         onTap: () {
           NavigatorUtils.navigate(
-              context, ArticleDetail(itemData: widget.itemData));
-          // Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-          //   return ArticleDetail(itemData: widget.itemData);
-          // }));
+              context, ArticleDetail(title: widget.itemData["title"], link: widget.itemData["link"],));
         },
       ),
     );

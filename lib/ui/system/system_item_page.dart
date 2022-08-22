@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/network/api.dart';
-import 'package:wanandroid_flutter/ui/mine/collection_item.dart';
+import 'package:wanandroid_flutter/ui/public/public_item.dart';
 
-class CollectionPage extends StatefulWidget {
-  const CollectionPage({Key? key}) : super(key: key);
+class SystemItemPage extends StatefulWidget {
+  const SystemItemPage({Key? key, required this.id}) : super(key: key);
+
+  final id;
 
   @override
-  State<CollectionPage> createState() => _CollectionPageState();
+  State<SystemItemPage> createState() => _SystemItemPageState();
 }
 
-class _CollectionPageState extends State<CollectionPage> {
+class _SystemItemPageState extends State<SystemItemPage> with AutomaticKeepAliveClientMixin {
 
   bool _isHidden = true;
 
@@ -21,13 +23,12 @@ class _CollectionPageState extends State<CollectionPage> {
   /// 当前页数
   var curPage = 0;
 
-  /// 滑动控制器
-  ScrollController _controller = ScrollController();
+  late ScrollController _controller;
 
   @override
   void initState() {
     super.initState();
-
+    _controller = ScrollController();
     _controller.addListener(() {
       /// 获得ScrollController监听控件可以滚动的最大范围
       var maxScroll = _controller.position.maxScrollExtent;
@@ -38,7 +39,7 @@ class _CollectionPageState extends State<CollectionPage> {
       ///当前滑动位置到达底部，同时还有更多数据
       if (maxScroll == pixels && curPage < totalPages) {
         ///加载更多
-        _getCollectionList();
+        _getSysArticleList(widget.id);
       }
     });
 
@@ -46,56 +47,51 @@ class _CollectionPageState extends State<CollectionPage> {
   }
 
   @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("收藏列表"),
-        leading: IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back)),
-      ),
-      body: Stack(
-        children: <Widget>[
-          Offstage(
-            offstage: !_isHidden,
-            child: Center(child: CircularProgressIndicator(),),
-          ),
-          Offstage(
-            offstage: _isHidden,
-            child: RefreshIndicator(
-              onRefresh: _pullToRefresh,
-              child: ListView.builder(
-                itemCount: articles.length + 1,
-                itemBuilder: (context, i) => _itemBuilder(i),
-                controller: _controller,
-              ),
+    super.build(context);
+    return Stack(
+      children: [
+        Offstage(
+          offstage: !_isHidden,
+          child: Center(child: CircularProgressIndicator(),),
+        ),
+        Offstage(
+          offstage: _isHidden,
+          child: RefreshIndicator(
+            onRefresh: _pullToRefresh,
+            child: ListView.builder(
+              itemCount: articles.length + 1,
+              itemBuilder: (context, i) => _itemBuilder(i),
+              controller: _controller,
             ),
-          )
-        ],
-      ),
+          ),
+        )
+      ],
     );
   }
 
   Future<void> _pullToRefresh() async {
+
     curPage = 0;
-    Iterable<Future> futures = [_getCollectionList()];
+
+    Iterable<Future> futures = [_getSysArticleList(widget.id)];
 
     await Future.wait(futures);
 
     _isHidden = false;
 
-    setState(() {});
+    setState(() {
+
+    });
+
     return;
+
   }
 
-  _getCollectionList() async {
+   _getSysArticleList(int id) async {
 
-    var data = await Api.getCollectionList(curPage);
-    if(data != null) {
+    var data = await Api.getSysArticle(curPage, id);
+    if (data != null) {
       var map = data["data"];
       var datas = map["datas"];
 
@@ -113,7 +109,8 @@ class _CollectionPageState extends State<CollectionPage> {
     }
   }
 
-  Widget _itemBuilder(int index) {
+  _itemBuilder(int index) {
+
     if (index == articles.length) {
       if (curPage < totalPages) {
         return Container(
@@ -137,10 +134,9 @@ class _CollectionPageState extends State<CollectionPage> {
       }
     }
 
-    return CollectionItem(itemData: articles[index],);
+    return PublicItem(itemData: articles[index],);
   }
 
+  @override
+  bool get wantKeepAlive => true;
 }
-
-
-

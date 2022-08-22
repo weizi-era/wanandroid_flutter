@@ -27,10 +27,7 @@ class _PublicItemState extends State<PublicItem> {
             Padding(padding: EdgeInsets.fromLTRB(10, 0, 10, 5), child: bottom(),),
           ],
         ), onTap: () {
-          NavigatorUtils.navigate(context, ArticleDetail(itemData: widget.itemData));
-          // Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-          //   return ArticleDetail(itemData: widget.itemData);
-          // }));
+          NavigatorUtils.navigate(context, ArticleDetail(title: widget.itemData["title"], link: widget.itemData["link"],));
         },)
       );
   }

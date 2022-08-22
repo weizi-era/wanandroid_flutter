@@ -35,6 +35,8 @@ class Api {
 
   static const String LOGOUT = "/user/logout/json";
 
+  static const String SYS_ARTICLE = "/article/list/";
+
   static getArticleList(int page) async {
     return HttpManager.getInstance().request("$ARTICLE_LIST$page/json");
   }
@@ -85,7 +87,9 @@ class Api {
   }
 
   static getScoreList(int page) async {
-    return HttpManager.getInstance().request("$SCORE_LIST$page/json");
+    return HttpManager.getInstance().request("$SCORE_LIST$page/json", headers: {
+      "Cookie" : SPUtil().getValue("Cookie"),
+    });
   }
   
   static getRankList(int page) async {
@@ -101,6 +105,12 @@ class Api {
   static getSharedList(int page) async {
     return HttpManager.getInstance().request("$MY_SHARED$page/json", headers: {
       "Cookie" : SPUtil().getValue("Cookie"),
+    });
+  }
+
+  static getSysArticle(int page, int cid) async {
+    return HttpManager.getInstance().request("$SYS_ARTICLE$page/json", queryParameters: {
+      "cid" : cid,
     });
   }
 

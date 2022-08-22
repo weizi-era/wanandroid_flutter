@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/network/api.dart';
+import 'package:wanandroid_flutter/ui/home/article_detail.dart';
+import 'package:wanandroid_flutter/ui/system/system_detail.dart';
+import 'package:wanandroid_flutter/utils/navigator_util.dart';
 
 class SystemItem extends StatelessWidget {
   SystemItem({Key? key, required this.itemData, required this.flag}) : super(key: key);
@@ -26,14 +29,14 @@ class SystemItem extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.all(8.0),
-            child: flow(),
+            child: flow(context),
           ),
         ],
       ),
     );
   }
 
-  Widget flow() {
+  Widget flow(context) {
     if (flag == Api.SYSTEM_FLAG) {
       _child = itemData["children"];
     } else {
@@ -46,15 +49,19 @@ class SystemItem extends StatelessWidget {
       alignment: WrapAlignment.start,
       //delegate: MyFlowDelegate(margin: const EdgeInsets.all(5)),
       children: List.generate(_child.length, (index) {
-        return oval(_child[index]);
+        return oval(context, _child[index], index);
       }),
     );
   }
 
-  Widget oval(var child) {
+  Widget oval(context, child, index) {
     return InkWell(
       onTap: () {
-        print(child["name"]);
+        if (flag == Api.SYSTEM_FLAG) {
+          NavigatorUtils.navigate(context, SystemDetail(itemData: itemData, index: index));
+        } else if (flag == Api.NAVIGATOR_FLAG) {
+          NavigatorUtils.navigate(context, ArticleDetail(title: child["title"], link: child["link"],));
+        }
       },
       child: Chip(
           backgroundColor: Colors.grey[300],

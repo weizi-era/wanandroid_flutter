@@ -1,4 +1,3 @@
-
 import 'package:banner_view/banner_view.dart';
 import 'package:flutter/material.dart';
 import 'package:wanandroid_flutter/network/api.dart';
@@ -14,8 +13,8 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
-
+class _HomePageState extends State<HomePage>
+    with AutomaticKeepAliveClientMixin {
   /// 滑动控制器
   ScrollController _controller = ScrollController();
 
@@ -28,11 +27,9 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
 
   /// 总页数
   var totalPages = 0;
+
   /// 当前页数
   var curPage = 0;
-
-  static const loadingTag = "##loading##"; // 表尾标记
-  var _words = <String>[loadingTag];
 
   var maxScroll;
 
@@ -46,6 +43,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
       maxScroll = _controller.position.maxScrollExtent;
 
       debugPrint("maxScroll == $maxScroll");
+
       /// 获得当前位置的像素值
       pixels = _controller.position.pixels;
 
@@ -69,9 +67,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
     super.dispose();
   }
 
-
   _getArticleList([bool update = true]) async {
-
     var data = await Api.getArticleList(curPage);
 
     if (data != null) {
@@ -80,14 +76,14 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
 
       totalPages = map["pageCount"];
 
-      if(curPage == 0) {
+      if (curPage == 0) {
         articles.clear();
       }
       curPage++;
       articles.addAll(datas);
 
       /// 更新 UI
-      if(update) {
+      if (update) {
         setState(() {});
       }
     }
@@ -123,7 +119,9 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("首页",),
+        title: Text(
+          "首页",
+        ),
         actions: [
           IconButton(onPressed: () {}, icon: Icon(Icons.search)),
         ],
@@ -132,7 +130,9 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
         children: <Widget>[
           Offstage(
             offstage: !_isHidden,
-            child: Center(child: CircularProgressIndicator(),),
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
           ),
           Offstage(
             offstage: _isHidden,
@@ -153,9 +153,9 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
   Widget _itemBuilder(int index) {
     if (index == 0) {
       return Container(
-          height: MediaQuery.of(context).size.height * 0.3,
-          child: _bannerView(),
-        );
+        height: MediaQuery.of(context).size.height * 0.3,
+        child: _bannerView(),
+      );
     }
 
     if (index == articles.length) {
@@ -181,16 +181,27 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
       }
     }
 
-    return ArticleItem(itemData: articles[index - 1],);
+    return ArticleItem(
+      itemData: articles[index - 1],
+    );
   }
 
   Widget? _bannerView() {
-
     List<Widget> list = banners.map((item) {
-      return InkWell( /// 能让我们快速添加各种触摸事件的Widget
-        child: CacheImage(item["imagePath"], clearMemoryCacheWhenDispose: true,),
-        onTap: () {  ///点击事件
-          NavigatorUtils.navigate(context, ArticleDetail(itemData: item,));
+      return InkWell(
+        /// 能让我们快速添加各种触摸事件的Widget
+        child: CacheImage(
+          item["imagePath"],
+          clearMemoryCacheWhenDispose: true,
+        ),
+        onTap: () {
+          ///点击事件
+          NavigatorUtils.navigate(
+              context,
+              ArticleDetail(
+                title: item["title"],
+                link: item["url"],
+              ));
         },
       );
     }).toList();
@@ -207,5 +218,4 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
 
   @override
   bool get wantKeepAlive => true;
-
 }

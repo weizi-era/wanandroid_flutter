@@ -65,7 +65,7 @@ class ArticleItem extends StatelessWidget {
     return Card(
         elevation: 4.0,
         child: InkWell(child: column, onTap: () {
-          NavigatorUtils.navigate(context, ArticleDetail(itemData: itemData,));
+          NavigatorUtils.navigate(context, ArticleDetail(title: itemData["title"], link: itemData["link"],));
         },),
       );
   }
